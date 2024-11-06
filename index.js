@@ -9,10 +9,16 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-app.post('/analyze', async (req, res) => {
+// Angepasst für Brevo's einfachen Webhook-Aufruf
+app.get('/analyze', async (req, res) => {
   try {
-    const { problem } = req.body;
+    // Holt das Problem aus den URL-Parametern
+    const problem = req.query.PROBLEM;
     
+    if (!problem) {
+      return res.status(400).json({ error: 'Kein Problem übermittelt' });
+    }
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [{
@@ -30,8 +36,11 @@ app.post('/analyze', async (req, res) => {
 
     const beliefs = completion.choices[0].message.content;
     
+    // Speichert die Analyse als Kontakteigenschaft
     res.json({
-      beliefs: beliefs
+      attributes: {
+        BELIEFS: beliefs
+      }
     });
     
   } catch (error) {
