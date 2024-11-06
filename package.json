@@ -1,0 +1,13 @@
+{
+  "name": "glaubenssatz-analyzer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "^4.0.0",
+    "dotenv": "^16.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
