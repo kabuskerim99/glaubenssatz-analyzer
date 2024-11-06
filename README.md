@@ -1,0 +1,2 @@
+# glaubenssatz-analyzer
+glaubenssatz-analyzer
