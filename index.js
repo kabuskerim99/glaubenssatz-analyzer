@@ -10,7 +10,6 @@ app.use((req, res, next) => {
     console.log('Incoming request:');
     console.log('- URL:', req.url);
     console.log('- Method:', req.method);
-    console.log('- Query:', req.query);
     console.log('- Body:', req.body);
     next();
 });
@@ -19,16 +18,12 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-// Test endpoint
-app.get('/test', (req, res) => {
-    console.log('Test endpoint called');
-    res.json({ status: 'Server is running' });
-});
-
-app.get('/analyze', async (req, res) => {
+app.post('/analyze', async (req, res) => {
     try {
         console.log('Analyze endpoint called');
-        const problem = req.query.PROBLEM;
+        
+        // Extrahiere das Problem aus dem Body
+        const problem = req.body.attributes?.PROBLEM;
         
         console.log('Problem received:', problem);
         
@@ -73,5 +68,4 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log('Environment check:');
     console.log('- OpenAI Key present:', !!process.env.OPENAI_API_KEY);
-    console.log('- OpenAI Key starts with:', process.env.OPENAI_API_KEY?.substring(0, 7));
 });
